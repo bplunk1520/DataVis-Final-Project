@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Data Visualisations">
+<meta name="keywords" content="HTML, CSS, D3">
+<meta name="author" content="Ben Plunkett">
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+  <body>
+
+    <h1 class = 'deepshadow'>Global Internet Access</h1>
+    <nav class='cssmenu'>
+  <ul>
+     <li><a href='home.html'  target="_self">Home</a></li>
+     <li><a href="WorldMap.html">Global View</a></li>
+     <li id='active'><a href="trends.html">Trends</a></li>
+  </ul>
+</nav>
+
+<svg width="960" height="500"></svg>
+
+<script>
+
+var svg = d3.select("svg"),
+margin = {
+	top: 50,
+	right: 20,
+	bottom: 30,
+	left: 50
+},
+width = +svg.attr("width") - margin.left - margin.right,
+height = +svg.attr("height") - margin.top - margin.bottom,
+g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+svg.attr("transform", "translate(350,0)");
+
+var x = d3.scaleBand()
+	.rangeRound([0, width])
+	.padding(0.1);
+
+var y = d3.scaleLinear()
+	.rangeRound([height, 0]);
+
+d3.csv("Data/avgData.csv").then(function (data) {
+	x.domain(data.map(function (d) {
+			return d.Year;
+		}));
+	y.domain([0, d3.max(data, function (d) {
+				return Number(d.Value);
+			})]);
+
+	g.append("g")
+	.attr("transform", "translate(0," + height + ")")
+	.call(d3.axisBottom(x))
+
+	g.append("g")
+	.call(d3.axisLeft(y))
+	.append("text")
+	.attr("fill", "#000")
+	.attr("transform", "rotate(-90)")
+	.attr("y", 6)
+	.attr("dy", "0.71em")
+	.attr("text-anchor", "end")
+	.text("Avg Percentage");
+
+	g.selectAll(".bar")
+	.data(data)
+	.enter().append("rect")
+	.attr("class", "bar")
+	.attr("x", function (d) {
+		return x(d.Year);
+	})
+	.attr("y", function (d) {
+		return y(Number(d.Value));
+	})
+	.attr("width", x.bandwidth())
+	.attr("height", function (d) {
+		return height - y(Number(d.Value));
+	})
+  .attr("fill", "steelblue");
+
+
+  function onhover(){
+    svg.selectAll(".bar")
+    .on("mouseover", function(d){
+      var width = parseFloat(d3.select(this).attr("width"))
+        var xPosition = parseFloat(d3.select(this).attr("x")) + 85
+        var yPosition = parseFloat(d3.select(this).attr("y")) + 25
+        svg.append("text")
+            .attr("id", "tooltip")
+            .attr("x", xPosition)
+            .attr("y", yPosition)
+            .attr("font-weight", 700)
+            .attr("font-family", "sans-serif")
+            .style("font-size", 24)
+            .text(d.Value)
+        d3.select(this)
+        .transition()
+        .ease(d3.easeCircleOut)
+        .attr("fill","purple")
+      }).on("mouseout", function(){
+                d3.select("#tooltip").remove()
+                d3.select(this)
+                .transition()
+                .ease(d3.easeCircleOut)
+                .attr("fill", "steelblue")
+              })}
+
+onhover()
+
+});
+
+</script>
+
+
+</body>
+
+</html>

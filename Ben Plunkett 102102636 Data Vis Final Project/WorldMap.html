@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Data Visualisations">
+<meta name="keywords" content="HTML, CSS, D3">
+<meta name="author" content="Ben Plunkett">
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+  <body>
+
+    <h1 class = 'deepshadow'>Global Internet Access</h1>
+    <nav class='cssmenu'>
+  <ul>
+     <li><a href='home.html'  target="_self">Home</a></li>
+     <li id='active'><a href="WorldMap.html">Global View</a></li>
+     <li ><a href="trends.html">Trends</a></li>
+  </ul>
+</nav>
+
+    <div class = "controls">
+    <input type="range" min="1" max ="7" value = "1" class="slider" step="1"  oninput="generateMap(value)">
+    </div>
+
+     <div class = "mapDiv"></div>
+    <div class = "legendDiv"></div>
+     <div class = "output" id = "output"></div>
+
+    <script>
+
+      var w = 1300;
+      var h = 500;
+
+
+
+
+function generateMap(yearInput){
+  if(yearInput == '1'){
+    yearInput = '2000';
+  }else if (yearInput == '2') {
+      yearInput = '2005';
+  } else if(yearInput == '3'){
+    yearInput = '2010';
+  } else if (yearInput == '4') {
+    yearInput = '2014';
+  } else if (yearInput == '5') {
+      yearInput = '2015';
+  } else if (yearInput == '6') {
+      yearInput = '2016';
+  } else if (yearInput == '7') {
+      yearInput = '2017';
+  }
+
+  var output = document.getElementById("output");
+  output.innerHTML = yearInput;
+
+  d3.select("svg").remove();
+
+  var color = d3.scaleQuantize()
+              .domain([0,100])
+              .range(  ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c']);
+
+  var svg = d3.select(".mapDiv")
+              .append("svg")
+              .attr("width", w)
+              .attr("height", h)
+              .attr("fill", "grey")
+              .attr("transform", "translate(350,0)");
+
+        var projection = d3.geoMercator()
+        .center([0, 0])
+        .translate([500, 300])
+        .scale(150)
+
+        var path = d3.geoPath()
+                    .projection(projection);
+
+        d3.csv("Data/global_internet1.csv").then(function(data) {
+
+        data = data.filter(filterCriteria);
+
+          function filterCriteria(d) {
+              return d.Year === yearInput;
+          }
+
+
+            console.log([d3.min(data, function(d) { return d.Value; }),
+            d3.max(data, function(d) { return d.Value; })])
+
+            d3.json("WorldMap.json").then(function(json){
+              for (var i = 0; i < data.length; i++){
+                var dataState = data[i].country;
+                var dataValue = parseFloat(data[i].Value);
+                console.log(dataState +":"+ dataValue);
+
+                for (var j = 0; j < json.features.length; j++){
+                  var jsonState = json.features[j].properties.sovereignt;
+                  if(dataState == jsonState){
+                    json.features[j].properties.value = dataValue;
+
+                    break;
+                  }
+                }
+              }
+
+
+              svg.selectAll("path")
+                .data(json.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .style("fill", function(d) {
+                   var value = d.properties.value;
+                   if (value) {
+                     return color(value);
+                   } else {
+                     return "#eff3ff";
+                   }
+                });
+
+        svg.selectAll("path")
+        .data(json.features)
+        .enter().append("path")
+          .attr("d", path)
+
+
+  });
+
+});
+
+
+var height = 100;
+var width = 100;
+var ext_color_domain = [10, 30, 50, 70, 90]
+var legend_labels = ["0 - 20%", "20 - 40%", "40 - 60%", "60 - 80%", "80 - 100%"]
+var color2 = d3.scaleQuantize()
+.domain([0,100])
+.range( ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c']);
+
+
+var legend = svg.selectAll("g.legend")
+.data(ext_color_domain)
+.enter().append("g")
+.attr("class", "legend")
+.attr("transform", "translate(1000,50)");
+
+legend.append("text")
+.text("percentage of households")
+.attr("y", 100)
+.attr("x", 20);
+
+legend.append("text")
+.text("with Internet Access")
+.attr("y", 120)
+.attr("x", 30)
+.attr("class", "text")
+
+var ls_w = 20, ls_h = 20;
+
+legend.append("rect")
+.attr("x", 20)
+.attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
+.attr("width", ls_w)
+.attr("height", ls_h)
+.style("fill", function(d, i) { return color2(d); })
+.style("opacity", 0.8);
+
+legend.append("text")
+.attr("x", 50)
+.attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
+.text(function(d, i){ return legend_labels[i]; });
+}
+
+
+
+
+
+
+
+
+
+window.onload = generateMap('2000');
+
+
+
+      </script>
+
+  </body>
+
+</html>

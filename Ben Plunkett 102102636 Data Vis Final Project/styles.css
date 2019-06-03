@@ -1,0 +1,258 @@
+@import url(https//fonts.googleapis.com/css?family=Oswald);
+
+
+h1 {
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-size: 80px;
+  padding: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  text-rendering: optimizeLegibility;
+  margin: 10px
+
+  }
+
+  .deepshadow {
+    margin-top: 10px;
+    color: #ccffff;
+    background-color:#AAAAAA;
+    letter-spacing: .1em;
+    text-shadow:
+      0 -1px 0 white,
+      0 1px 0 #2e2e2e,
+      0 2px 0 #2c2c2c,
+      0 3px 0 #2a2a2a,
+      0 4px 0 #282828,
+      0 5px 0 #262626,
+      0 6px 0 #242424,
+      0 22px 30px rgba(0, 0, 0, 0.9);
+  }
+body{
+  height: 100%;
+  background-repeat: no-repeat;
+  background-color:#AAAAAA;
+  margin:0;
+  padding:0;
+}
+
+h2{
+	font-family: 'Oswald', sans-serif;
+	color: lightgray;
+	margin: 10px;
+}
+
+p{
+	font-family: Verdana, Geneva, sans-serif;
+	color: #333;
+}
+
+a:hover{
+  background-color: #485864;
+}
+
+
+.cssmenu,
+.cssmenu ul,
+.cssmenu ul li,
+.cssmenu ul li a,
+.cssmenu #menu-button {
+  padding: 0;
+  border: 0;
+  list-style: none;
+  line-height: 1;
+  display: block;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align:center;
+
+}
+.cssmenu:after,
+.cssmenu > ul:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 100%;
+}
+.cssmenu #menu-button {
+  display: inline-block;
+  text-align: left;
+}
+.cssmenu {
+  width: auto;
+  border: 3px solid #3399ff;
+  border-radius: 3px;
+  font-family: 'Oswald', sans-serif;
+  line-height: 1;
+  background: #bdbdbd;
+  box-shadow: 1px 1px 0 , 2px 2px 0 #3399ff, 3px 3px 3px rgba(0, 0, 0, 0.35);
+  margin: 10px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.cssmenu > ul > li {
+  /*centers nav bar*/
+  text-align: center;
+  display:inline-block;
+}
+.cssmenu.align-center > ul {
+  font-size: 0;
+  text-align: center;
+}
+
+.cssmenu > ul > li > a {
+  padding: 15px 30px;
+  font-size: 25px;
+  text-transform: uppercase;
+  text-decoration: none;
+    color: #131313;
+  -webkit-transition: all .2s ease;
+  -moz-transition: all .2s ease;
+  -ms-transition: all .2s ease;
+  -o-transition: all .2s ease;
+  transition: all .2s ease;
+}
+.cssmenu > ul > li:hover > a,
+.cssmenu > ul > #active {
+  	color:#3399ff;
+  	font-weight: bold;
+  	background-color: #ccc;
+}
+
+a{
+  color: #131313;
+}
+
+a:visited {
+  color: #131313;
+}
+
+
+.panel2{
+	padding: 10px;
+	color: lightgray;
+}
+
+.panel2 > p{
+	margin: 15px;
+
+}
+
+.controls {
+  margin-left: 25%;
+  margin-right: 25%;
+  font-family: sans-serif;
+  color: black;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+button{
+  padding: 10px;
+  background-color: #3399ff;
+  padding: 15px 32px;
+  border: black;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.Info{
+  margin: auto;
+  width: 1000px;
+  margin-top: 50px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.controls{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #eff3ff;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #3399ff;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #3399ff;
+  cursor: pointer;
+}
+
+.output{
+  text-align: center;
+  margin: 15px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 70px;
+  color: black;
+}
+
+.mapDiv{
+  font-family:'Oswald', sans-serif ;
+  font-size: 18px;
+  color: black;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: purple;
+}
+
+.axis--x path {
+  display: none;
+}
+
+.image{
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-top: 50px;
+}
+
+footer{
+  display: flex;
+  margin: auto;
+  flex-direction: row;
+  font-family: Verdana, Geneva, sans-serif;
+  color: #333;
+  justify-content: center;
+  margin-top: 11%;
+}
+
+.name{
+  margin-right: 200px;
+}
+
+.date{
+  margin-left: 200px;
+}
